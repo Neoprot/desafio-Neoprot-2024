@@ -1,135 +1,79 @@
-# RECINTOS DO ZOO
+# Zoológico - Gerenciamento de Recintos
 
-## COMO BAIXAR O CÓDIGO E SUBMETER MINHA SOLUÇÃO?
-Para completar a etapa do desafio você terá que baixar a estrutura do código aqui na Azure, resolver o desafio usando Javascript e entregá-lo no repositório no seu github.
+Este projeto é uma simulação para gerenciar a alocação de animais em diferentes recintos de um zoológico. O objetivo é verificar se os animais podem ser colocados em recintos adequados, levando em consideração o bioma, o espaço disponível e outras regras específicas de convivência entre as espécies.
 
-### BAIXANDO A ESTRUTURA
-Para baixar a estrutura no formato zip, basta clicar neste [link](https://dev.azure.com/db-tecnologia/99dbf7ce-dadd-40d3-b827-e1648cb6a262/_apis/git/repositories/877e7dfb-78ea-465e-bd88-9dbf83120933/items?path=/&versionDescriptor%5BversionOptions%5D=0&versionDescriptor%5BversionType%5D=0&versionDescriptor%5Bversion%5D=main&resolveLfs=true&%24format=zip&api-version=5.0&download=true).
+## Funcionalidades
 
-### ENTREGANDO O DESAFIO
-Após resolver o desafio e validá-lo com os testes (mais detalhes nos tópicos abaixo), você terá que criar um repositório **público** no [Github](https://github.com/) com o **nome** de `desafio-seuUsername-2024` (substitua "seuUsername" pelo seu usuário do GitHub) e colocar o código na **branch** `main`.
+- Verifica se um recinto tem espaço suficiente para acomodar uma quantidade específica de animais.
+- Garante que animais carnívoros só convivam com outros carnívoros da mesma espécie.
+- Verifica a compatibilidade dos recintos com os biomas e as características dos animais.
+- Impõe regras específicas para algumas espécies, como macacos e hipopótamos, para garantir o bem-estar.
+- Retorna uma lista de recintos viáveis ou um erro, caso nenhum recinto seja adequado.
 
-Se você ainda não teve contato com essa ferramenta, não tem problema. Separamos um material para lhe ajudar nessa etapa: [Como usar Git e Github na prática](https://www.youtube.com/watch?v=UBAX-13g8OM).
+## Regras de Alocação
 
-## O DESAFIO
-Olá! Você foi contratado para ajudar na organização de um zoológico.
-Sua missão será construir a lógica para indicar os recintos onde novos animais se sintam confortáveis.
+1. **Compatibilidade de Bioma**: Cada animal deve ser alocado em recintos que possuam um bioma compatível com o seu habitat natural.
+2. **Carnívoros**: Animais carnívoros devem habitar somente com a própria espécie.
+3. **Conforto dos Animais Existentes**: Os animais já presentes no recinto devem continuar confortáveis com a inclusão de novos animais.
+4. **Hipopótamos**: Só toleram outras espécies se o recinto for do tipo savana e rio.
+5. **Macacos**: Não se sentem confortáveis sozinhos em um recinto vazio; precisam de outro animal, seja da mesma espécie ou não.
+6. **Espaço Extra**: Quando há mais de uma espécie no recinto, é necessário considerar um espaço extra ocupado.
+7. **Lotes de Animais**: Não separar lotes de animais entre diferentes recintos.
 
-### RECINTOS EXISTENTES
+## Instalação
 
- O zoológico possui os seguintes recintos disponíveis.
+1. Clone o repositório:
+   ```
+   git clone https://github.com/seu-usuario/zoologico.git
+   ```
 
-  | número    | bioma             | tamanho total |  animais existentes |
-  |-----------|-------------------|---------------|---------------------|
-  | 1         | savana            |   10          |   3 macacos         |
-  | 2         | floresta          |    5          |   vazio             |
-  | 3         | savana e rio      |    7          |  1 gazela           |
-  | 4         | rio               |    8          |   vazio             |
-  | 5         | savana            |    9          |  1 leão             |
+2. Acesse o diretório do projeto:
+   ```
+   cd zoologico
+   ```
 
-### ANIMAIS
+3. Instale as dependências:
+   ```
+   npm install
+   ```
 
- O zoológico só está habilitado a tratar dos animais abaixo.
- A tabela mostra o espaço que cada indivíduo ocupa e em quais biomas se adapta.
+## Como Executar os Testes
 
-  | espécie    | tamanho | bioma                |
-  |------------|---------|----------------------|
-  | LEAO       |   3     |  savana              |
-  | LEOPARDO   |   2     |  savana              |
-  | CROCODILO  |   3     |  rio                 |
-  | MACACO     |   1     |  savana ou floresta  |
-  | GAZELA     |   2     |  savana              |
-  | HIPOPOTAMO |   4     |  savana ou rio       |
+Para rodar os testes de unidade e garantir que todas as regras de alocação de animais estão sendo aplicadas corretamente, execute o seguinte comando:
 
-### REGRAS PARA ENCONTRAR UM RECINTO
-
-1) Um animal se sente confortável se está num bioma adequado e com espaço suficiente para cada indivíduo
-2) Animais carnívoros devem habitar somente com a própria espécie
-3) Animais já presentes no recinto devem continuar confortáveis com a inclusão do(s) novo(s)
-4) Hipopótamo(s) só tolera(m) outras espécies estando num recinto com savana e rio
-5) Um macaco não se sente confortável sem outro animal no recinto, seja da mesma ou outra espécie
-6) Quando há mais de uma espécie no mesmo recinto, é preciso considerar 1 espaço extra ocupado
-7) Não é possível separar os lotes de animais nem trocar os animais que já existem de recinto (eles são muito apegados!).
-Por exemplo, se chegar um lote de 12 macacos, não é possível colocar 6 em 2 recintos.
-
-### ENTRADAS E SAÍDAS
-
-1) O programa deve receber tipo e quantidade de animal (nessa ordem)
-2) O programa deve retornar uma estrutura contendo a lista de todos os recintos viáveis ordenada pelo número do recinto (caso existam) e a mensagem de erro (caso exista)
-3) A lista de recintos viáveis deve indicar o espaço livre que restaria após a inclusão do(s) animal(is) e o espaço total, no formato "Recinto nro (espaço livre: valorlivre total: valortotal)"
-4) Caso animal informado seja inválido, apresentar erro "Animal inválido"
-5) Caso quantidade informada seja inválida, apresentar erro "Quantidade inválida"
-6) Caso não haja recinto possível, apresentar erro "Não há recinto viável"
-
-### EXEMPLOS
-
-Entrada para um caso válido
-```js
-"MACACO", 2
 ```
-Saída
-```js
-{
-  recintosViaveis: ["Recinto 1 (espaço livre: 5 total: 10)", 
-   "Recinto 2 (espaço livre: 3 total: 5)", 
-   "Recinto 3 (espaço livre: 2 total: 7)"]
-}
-```
-
-Entrada para um caso inválido
-```js
-"UNICORNIO", 1
-```
-Saída
-```js
-{
-  erro: "Animal inválido"
-}
-```
-
-### O CÓDIGO
-Você está recebendo uma estrutura básica para desenvolver a lógica do desafio. O arquivo principal está localizado dentro da pasta `src` e se chama `recintos-zoo.js`. Você pode desenvolver a sua lógica criando outros arquivos, métodos e até mesmo outras classes, porém o resultado deve poder ser obtido através do método `analisaRecintos`.
-
-> **ALERTA**:
-> É importante que essa estrutura básica não seja alterada, pois as etapas automáticas da nossa validação dependem disso. Conseguir executar os passos descritos mais adiante na seção `VALIDANDO A SOLUÇÃO` também ajudará você a verificar que seu código segue a estrutura definida.
-
-Exemplo de chamada
-```js
-  new RecintosZoo().analisaRecintos('MACACO', 2);
-```
-
-### INSTALANDO E RODANDO NA SUA MÁQUINA
-1. Instalar o [Node](https://nodejs.org/en/)
-2. Instalar dependencias do projeto com o seguinte comando:
-```bash
-npm install
-```
-
-### VALIDANDO A SOLUÇÃO
-Junto com a estrutura básica você está recebendo alguns cenários de testes no arquivo `recintos-zoo.test.js` para auxiliar na validação da sua solução. Recomendamos que você crie mais casos de teste para aumentar a confiabilidade da sua solução.
-Para testar sua solução com os cenários existentes ou novos, rode o seguinte comando:
-```bash
 npm test
 ```
 
-Para saber mais consulte a [Documentação do Jest](https://jestjs.io/pt-BR/docs/getting-started).
+Os testes cobrem uma série de cenários para validar a alocação de animais em recintos conforme as regras descritas.
 
-### VALIDANDO A ENTREGA
-Para garantir que seu desafio vai ser considerado entregue, revise os seguintes pontos:
+## Estrutura do Projeto
 
-#### GIT
-O repositório deve ser **público** e ter o **nome** e **branch** indicados na seção `ENTREGANDO O DESAFIO`.
-
-Para verificar que o repositório é público, deslogue-se do github e tente ver o código. Se conseguir, nós também conseguimos! Lembrando que vamos usar o link para o usuário informado durante o cadastro na Gupy. Veja [como alterar a visibilidade](https://docs.github.com/pt/repositories/managing-your-repositorys-settings-and-features/managing-repository-settings/setting-repository-visibility#changing-a-repositorys-visibility).
-
-#### CÓDIGO
-A solução deve ser entregue em **javascript** e a **estrutura de pastas e arquivos** deve seguir o indicado na seção `O CÓDIGO`.
-
-O **export** da classe deve ser mantido da seguinte maneira para compatibilidade com o arquivo de testes:
-```js
-export { RecintosZoo as RecintosZoo };
+```
+src/
+├── recintos-zoo.js        # Lógica principal do gerenciamento de recintos e alocação de animais
+├── recintos-zoo.test.js   # Testes automatizados para validar a lógica de alocação
+└── ...
 ```
 
-Se todos os passos forem seguidos corretamente, você terá um repositório como o da figura abaixo (lembrando que é permitido criar mais arquivos), onde `seuUsername` é o seu usuário do GitHub, que você informou no questionário da Gupy.
+- **`recintos-zoo.js`**: Contém a lógica de alocação de animais nos recintos e a verificação das regras descritas.
+- **`recintos-zoo.test.js`**: Contém os testes para garantir que todas as regras de convivência e alocação de animais estão sendo aplicadas corretamente.
 
-![Exemplo de repositório](https://startdbstorage.blob.core.windows.net/filecontainer/imagem-estrutura.png)
+## Exemplos de Uso
+
+### Analisar Recintos Disponíveis
+
+Para verificar quais recintos são viáveis para alocar uma certa quantidade de animais de uma espécie, use a função `analisaRecintos`. 
+
+Exemplo:
+
+```
+const { RecintosZoo } = require('./recintos-zoo');
+
+const zoologico = new RecintosZoo();
+const resultado = zoologico.analisaRecintos('MACACO', 2);
+
+console.log(resultado);
+```
+
+Esse código retorna uma lista de recintos viáveis que podem acomodar 2 macacos.
